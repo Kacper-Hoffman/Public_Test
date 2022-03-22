@@ -1,7 +1,7 @@
 # Test Publiczny
 Repozytorium publiczne testowe
 ## Kod Wstepny
-Sekcja druga
+Tworzenie nowego repozytorium, dodanie plikow, wstawienie nowej wersji
 ```
 git init
 git add .
