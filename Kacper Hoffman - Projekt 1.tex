@@ -1,0 +1,116 @@
+% szablon sprawozdania z dnia 2020-10-27
+\documentclass{article} % mwart , article
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}	
+\usepackage{polski}	
+\usepackage[T1]{fontenc}
+\frenchspacing	
+\usepackage{indentfirst}
+% PAKIETY DO MODYFIKACJI SRONY
+\usepackage{fancybox} 
+\usepackage{geometry}
+\geometry{
+	total={170mm,250mm},
+	left=20mm,
+	top=20mm,
+}
+% TABELA
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{makecell}
+% INNE
+\usepackage{color, colortbl}
+\definecolor{Gray}{gray}{0.9}
+\usepackage{lipsum}
+% USTAWIENIA SUBSECTION
+\usepackage[compact]{titlesec}
+\titleformat{\subsection}[runin]
+{\normalfont\large\bfseries}{\thesubsection}{1em}{}[{\\[0,5em]}]
+\titlespacing*{\subsection}{1cm}{1em}{0em}
+% dodanie FORCEINDENT
+\newcommand{\forceindent}{\leavevmode{\parindent=1cm\indent}} %
+
+
+% TYTUŁ, DATY ORAZ DANE OSOBY OPRACOWUJĄCEJ SPRAWOZDANIE
+\def\AuthorFirstName{KACPER}
+\def\AuthorLastName{HOFFMAN}
+\def\Title{Wykonanie programu służącego do generacji sygnału\\sinusoidalnego z wyższymi harmonicznymi oraz\\analizy tego sygnału za pomocą LabView}
+\def\DateOfExecution{2022-05-05}
+\def\DateOfDeliver{2022-05-09}
+%
+%
+\begin{document}	
+	\fancypage{\setlength{\fboxsep}{0pt}\doublebox}{}	
+	\noindent
+	\def\arraystretch{1.5} \small
+% TABELA Z DANYMI
+	\begin{table}
+		\resizebox{\textwidth}{!}{\begin{tabular}{|p{2cm}|p{4cm}|p{4cm}|p{3cm}|l|}
+		\hline 
+		\multirow{4}{*}{\makecell[l]{\includegraphics[width=1.9cm]{image/ModLogoPO}\\\includegraphics[width=1.9cm]{image/ModLogoWE}}} & PRZEDMIOT: & \multicolumn{3}{l|}{ \makecell[l]{\noalign{\vskip3pt}PRZEDMIOT WYBIERALNY XIV:\\ NARZ\k{E}DZIA INFORMATYCZNE W PRAKTYCE \\IN\.{Z}YNIERSKIEJ}}\tabularnewline
+		\cline{2-5} \cline{3-5} \cline{4-5} \cline{5-5} 
+		& KIERUNEK STUDIÓW: & ELEKTROTECHNIKA & ROK STUDIÓW: & V\tabularnewline
+		\cline{2-5} \cline{3-5} \cline{4-5} \cline{5-5} 
+		& ROK AKADEMISKI: & 2021/2022 & SEMESTR: & 3\tabularnewline
+		\cline{2-5} \cline{3-5} \cline{4-5} \cline{5-5} 
+		& TEMAT: & \multicolumn{3}{l|}{\makecell[l]{\noalign{\vskip3pt} \Title }}\tabularnewline
+		\hline 
+		IMI\k{E}: & \textbf{\AuthorFirstName} & \multicolumn{2}{l|}{DATA WYKONANIA \'{C}WICZENIA: }  & \DateOfExecution \tabularnewline
+		\hline 
+		NAZWISKO: & \textbf{\AuthorLastName} & \multicolumn{2}{l|}{DATA ODDANIA SPRAWOZDANIA:} & \DateOfDeliver \tabularnewline
+		\hline 
+		OCENA: & DATA: & \multicolumn{3}{l|}{UWAGI}\tabularnewline
+		\hline \rowcolor{Gray}
+		{\makecell[l]{ \\ \\ \\ \\}}&  & \multicolumn{3}{l|}{}\tabularnewline
+		\hline 
+		\end{tabular}}
+	\end{table}
+% POCZĄTEK SPRAWOZDANIA
+	\section{Projekt 1}
+		\subsection{Cel Projektu}
+			\forceindent Celem projektu było stworzenie w oprogramowaniu LabView programu, który umożliwi generację oraz analizę sygnału sinusoidalnego. Generowany sygnał ma zawierać w sobie wyższe harmoniczne, których parametry można zmieniać wraz z parametrami sygnału głównego. Po ustawieniu tego sygnału program automatycznie przeprowadzi jego analizę. W ramach analizy wyznaczone zostanie widmo częstotliwościowe, wartość RMS, wartość maksymalna, wartość minimalna, współczynnik SINAD, współczynnik zawartości wyższych harmonicznych THD oraz specyficzny poziom harmonicznych. Oryginalny sygnał oraz widmo częstotliwościowe wyświetlone zostaną na odpowiednich przebiegach, a pozostałe wartości będą pokazane numerycznie.
+		\subsection{Algorytm Programu}
+			\forceindent Algorytm programu składa się z dwóch części. W pierwszej części generowany jest sygnał do analizy. Generacja sygnału opiera się na elementach Simulate Signal. Wewnątrz tych elementów możliwe jest ustalenie generowanego sygnału, tutaj sinusoid. Parametry sygnału (częstotliwość, amplituda, faza) można ustawić w programie za pomocą elementów Numeric Control. Zastosowanie kilku elementów Simulate Signal pozwala na symulowanie wpływu wyższych harmonicznych na sygnał główny. Częstotliwość tych sygnałów ustala się na wielokrotność częstotliwości głównej. Na koniec tego fragmentu wszystkie sygnały dodaje się ze sobą, tworząc jeden sygnał z wyższymi harmonicznymi.
+			\\ \\
+			\forceindent W drugiej części programu następuje analiza oraz wyświetlenie wyników. Oryginalny sygnał wyświetla się za pomocą elementu Waveform Graph. Równolegle sygnał dostarcza się do elementów Distortion Measurements oraz Statistics. Te komponenty umożliwiają przeprowadzenie Szybkiej Transformaty Fouriera FFT oraz obliczenie wielkości zniekształceniowych. Po obliczeniach widmo częstotliwościowe wyświetla się na elemencie Waveform Graph. Z kolej parametry RMS, Maximum, Minimum, SINAD, THD oraz Specific Harmonic Level są pokazane na komponentach Numeric Indicator. Pełny algorytm programu pokazany został poniżej [\ref{fig:algorytm}].
+			\newpage \forceindent
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[width=16cm]{image/algorithm}
+				\caption[Algorytm Programu]{Algorytm wykonanego programu w LabView}
+				\label{fig:algorytm}
+			\end{figure}
+		\subsection{Opis Programu}
+			\forceindent Jak przedstawiono powyżej, działanie programu polega na ustawieniu parametrów sygnału, wykonaniu obliczeń a następnie wyświetleniu wyników analizy na odpowiednich komponentach. Jako parametry sygnału głównego ustawia się częstotliwość bazową, amplitudę oraz przesunięcie fazowe. W wyższych harmonicznych ustawia się ich numer (wielokrotność częstotliwości bazowej), amplitudę oraz fazę. Wszystkie te parametry ustalane są za pomocą elementów Numeric Control. Dynamicznie utworzony sygnał jest wyświetlany na elemencie Waveform Graph powyżej tymi parametrami. Poniżej wyświetla się wyniki analizy. Widmo częstotliwościowe pokazane jest również na komponencie Waveform Graph, natomiast pozostałe wielkości widocze są na elementach Numeric Indicator. Okno programu pokazano poniżej [\ref{fig:window}].
+			\newpage \forceindent
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[width=16cm]{image/window}
+				\caption[Okno Programu]{Okno wykonanego programu w LabView}
+				\label{fig:window}
+			\end{figure}
+		\subsection{Sprawdzenie Działania Programu}
+			\forceindent Uruchomienie programu w LabView pozwala na sprawdzenie jego poprawności działania. Dobrymi testami funkcjonalności programu jest zasymulowanie rzeczywistych przebiegów zawierających wyższe częstotliwości. Tutaj przedstawiono dwa przypadki: prąd magnesujący oraz odkształcony przebieg transformatora. W transformatorach występuje zjawisko nasycenia żelaza, przez co prąd magnesujący jest niesinusoidalny. Może on zostać jednak przedstawiony jako suma przebiegów sinusoidalnych zgodnie ze wzorem [\ref{eq:equation}]: 
+			\begin{equation}
+				i=I_{1m}sin(\omega t)-I_{3m}sin(3\omega t)+I_{5m}sin(5\omega t)-I_{7m}sin(7\omega t)+...
+				\label{eq:equation}
+			\end{equation}
+			\forceindent Ten prąd może zostać zasymulowany przy pomocy wykonanego programu. Drugim przypadkiem jest prąd odkształcony. Ze względu na oddziaływanie prądu magnesującego na prąd transformatora trójfazowego ma duży wpływ trzecia harmoniczna. Posiada ona najwyższą amplitudę z harmonicznych, z więc jest najbardziej zauważalna. Tak odkształcony przebieg równiez można zasymulować naszym programem. Wykonane analizy przedstawiono poniżej [\ref{fig:magnetic}] [\ref{fig:third}].
+			\newpage \forceindent
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[width=16cm]{image/magnetic}
+				\caption[Prąd Magnesujący]{Analiza prądu magnesującego w programie}
+				\label{fig:magnetic}
+			\end{figure}
+		\newpage \forceindent
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=16cm]{image/third}
+			\caption[Prąd Odkształcony]{Analiza prądu odkształconego w programie}
+			\label{fig:third}
+		\end{figure}
+		\subsection{Podsumowanie}
+			\forceindent Po uruchomieniu programu oraz wykonaniu testów możemy stwierdzić, że program funkcjonuje prawidłowo. Utworzone przez niego przebiegi zgadzają się z teoretycznymi założeniami. Zasymulowane prądy magnesujące oraz odkształcone mają kształty porównywalne z rzeczywistymi. Dodatkowo, program umożliwia wykonanie dokładnej analizy owych sygnałów. Przykładowo w prądzie magnesującym widmo czestotliwościowe pokazuje duży wpływ harmonicznych 3, 5 i 7 zgodnie ze wzorem (\ref{eq:equation}). Zauważamy również, że w takim sygnale występuje współczynnik zawartości wyższych harmonicznych THD na poziomie 0.59. Z kolej w prądzie odkształconym duży wpływ ma harmoniczna trzecia. Charakterystyczny kształt odkształcenia odpowiada teorii. Trzecia harmoniczna występuje również w widmie częstotliwości. Tutaj współczynnik THD jest na poziomie 0.45. Oczywiście, amplitudy harmonicznych zostały trochę przesadzone w celu pokazania kształtu przebiegów. Po wykonaniu rzeczywistych pomiarów możliwe będzie użycie stworzonego programu w celu wykonania szybiej i dokładnej analizy.
+\end{document}
